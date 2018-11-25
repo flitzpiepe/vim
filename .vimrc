@@ -20,48 +20,7 @@ set guioptions=egrLtm
 syntax on
 " }}}
 
-" general settings ------------------------------------ {{{
-function! Dark()
-    colorscheme one
-    set background=dark
-    set guifont=Source\ Code\ Pro\ Medium:h10
-    let g:theme_is_set = 1
-endfunction
-function! Light()
-    colorscheme one
-    set background=light
-    set guifont=Source\ Code\ Pro\ Semibold:h10
-    let g:theme_is_set = 1
-endfunction
-function! Darkbig()
-    colorscheme one
-    set background=dark
-    set guifont=Source\ Code\ Pro:h12
-    let g:theme_is_set = 1
-endfunction
-function! Lightbig()
-    colorscheme one
-    set background=light
-    set guifont=Source\ Code\ Pro\ Medium:h12
-    let g:theme_is_set = 1
-endfunction
-command! Td :call Dark()
-command! Tl :call Light()
-command! Tdb :call Darkbig()
-command! Tlb :call Lightbig()
-" these settings are now handled by the functions defined above
-"colorscheme tolerable
-"set guifont=Courier_Prime_Code:h10:cANSI
-if !exists('g:theme_is_set')
-    Tl
-endif
-" }}}
-
-" gui-related settings ------------------------------------ {{{
-" initial window size
-set lines=40
-set columns=120
-
+" window-related settings ------------------------------------ {{{
 nmap <F5> :resize -10<cr>
 nmap <F6> :resize +10<cr>
 nmap <F7> :vertical resize -10<cr>
@@ -69,7 +28,6 @@ nmap <F8> :vertical resize +10<cr>
 nmap <Space> :nohlsearch<cr>
 " }}}
 
-" gui-related settings ------------------------------------ {{{
 " to open a file in the same directory as the current buffer
 cabbr <expr> %% expand('%:p:h')
 
