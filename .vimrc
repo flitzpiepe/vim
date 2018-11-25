@@ -16,7 +16,6 @@ set foldmethod=indent
 set linebreak
 
 set number
-set guioptions=egrLtm
 syntax on
 " }}}
 
@@ -57,6 +56,14 @@ function! OpenVimRC()
         normal gf
     endif
 endfunction
+function! OpenGVimRC()
+    vsplit $MYGVIMRC
+    if line('$') == 1 && getline('.') =~ '^so\(urce\)\?'
+        normal 0
+        normal w
+        normal gf
+    endif
+endfunction
 
 " from http://learnvimscriptthehardway.stevelosh.com " {{{
 nnoremap - ddp
@@ -68,7 +75,9 @@ let mapleader = ";"
 let maplocalleader = ","
 noremap <leader>es :split $MYVIMRC<cr>
 noremap <leader>ev :call OpenVimRC()<cr>
+noremap <leader>evg :call OpenGVimRC()<cr>
 noremap <leader>sv :source $MYVIMRC<cr>
+noremap <leader>svg :source $MYGVIMRC<cr>
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 vnoremap <c-w>" <esc>a"<esc>`<i"<esc>

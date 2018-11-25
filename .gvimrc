@@ -1,7 +1,3 @@
-"colorscheme onedark
-colorscheme hemisu
-set background=light
-set guifont=Source\ Code\ Pro\ 10
 set guioptions=aegirLt
 
 set lines=40
@@ -56,6 +52,6 @@ command! Tl :call Light()
 command! Tdb :call Darkbig()
 command! Tlb :call Lightbig()
 if !exists('g:theme_is_set')
-    Td
+    Tl
 endif
 " }}}
