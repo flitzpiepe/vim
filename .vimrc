@@ -1,135 +1,155 @@
 set nocompatible
-behave xterm
-"filetype plugin on
-
-" solarized options
-" option name               default     optional
-" ------------------------------------------------
-" g:solarized_termcolors=   16      |   256
-" g:solarized_termtrans =   0       |   1
-" g:solarized_degrade   =   0       |   1
-" g:solarized_bold      =   1       |   0
-" g:solarized_underline =   1       |   0
-" g:solarized_italic    =   1       |   0
-" g:solarized_contrast  =   "normal"|   "high" or "low"
-" g:solarized_visibility=   "normal"|   "high" or "low"
-" ------------------------------------------------
-
-
-" bash syntax highlighting error
-let g:is_bash = 1
-
-" general
-set encoding=utf-8
-set ff=unix
-set tabstop=4
-set shiftwidth=4
-set bs=2
-
-" allow project .vimrc files
-set exrc
-
-" terminal 256 colors
-set t_Co=256
-
-set cc=78,110
-set number
-set wrap
-
-set ruler
-
-" coolness 
-colorscheme koehler
-syntax on
-
-"set guifont=Monospace\ 8
-set guifont=Monospace\ 8
-
-" folding
-set foldmethod=indent
-set foldnestmax=10
-set foldlevelstart=10
-set foldcolumn=2
-set foldignore=		" default is #
-
 " pathogen
 execute pathogen#infect()
+filetype plugin indent on
 
-" highlighting
-set hlsearch
-map <space> :nohlsearch<CR>
-
-" autoindentation
+" general settings ------------------------------------ {{{
 set autoindent
-" disabled it because it will always put script comments at the beginning of the line (and won't let me indent them, either)
-" set smartindent
+set backspace=2
 set expandtab
 set shiftround
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
 
-" colors by filetype
-" autocmd FileType python colorscheme wombat256mod
-" autocmd FileType cpp colorscheme wombat256mod
-" autocmd FileType perl colorscheme candy
-" autocmd FileType ruby colorscheme mustang
+set foldmethod=indent
+set linebreak
 
-" showing whitespaces other than <space>
-" activate with		:set list
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set number
+set guioptions=egrLtm
+syntax on
+" }}}
 
-" prevent the resizing of window buffers on window split/close
-set noequalalways
+" general settings ------------------------------------ {{{
+function! Dark()
+    colorscheme one
+    set background=dark
+    set guifont=Source\ Code\ Pro\ Medium:h10
+    let g:theme_is_set = 1
+endfunction
+function! Light()
+    colorscheme one
+    set background=light
+    set guifont=Source\ Code\ Pro\ Semibold:h10
+    let g:theme_is_set = 1
+endfunction
+function! Darkbig()
+    colorscheme one
+    set background=dark
+    set guifont=Source\ Code\ Pro:h12
+    let g:theme_is_set = 1
+endfunction
+function! Lightbig()
+    colorscheme one
+    set background=light
+    set guifont=Source\ Code\ Pro\ Medium:h12
+    let g:theme_is_set = 1
+endfunction
+command! Td :call Dark()
+command! Tl :call Light()
+command! Tdb :call Darkbig()
+command! Tlb :call Lightbig()
+" these settings are now handled by the functions defined above
+"colorscheme tolerable
+"set guifont=Courier_Prime_Code:h10:cANSI
+if !exists('g:theme_is_set')
+    Tl
+endif
+" }}}
 
-" expand '%%' to the path to the file in the current buffer
+" gui-related settings ------------------------------------ {{{
+" initial window size
+set lines=40
+set columns=120
+
+nmap <F5> :resize -10<cr>
+nmap <F6> :resize +10<cr>
+nmap <F7> :vertical resize -10<cr>
+nmap <F8> :vertical resize +10<cr>
+nmap <Space> :nohlsearch<cr>
+" }}}
+
+" gui-related settings ------------------------------------ {{{
+" to open a file in the same directory as the current buffer
 cabbr <expr> %% expand('%:p:h')
 
-nmap <C-Up> ddkP
-nmap <C-Down> ddp
+" TODO
+" autocmds
+autocmd bufnewfile *.pl r h:\101\template_perl.txt
+autocmd bufnewfile *.pl 0d
 
-nnoremap <C-o> o<ESC>
-nnoremap <C-O> O<ESC>
+" retain folds
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
 
-nnoremap ü <C-]>
+nnoremap <C-S> :execute "e" expand("%:p:h")<CR>
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 32
+"let g:netrw_browse_split = 4
+" }}}
 
-if has("autocmd")
-	autocmd bufwritepost _vimrc source $MYVIMRC
-endif
-
-" print all syntax highlighting groups for the current word under the cursor
-function! <SID>SynAttr()
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+" under windows the .vimrc is not located at ~/.vimrc but it will ususally
+" contain only a single line which sources the actual .vimrc (which is cloned
+" from a git repo)
+function! OpenVimRC()
+    vsplit $MYVIMRC
+    if line('$') == 1 && getline('.') =~ '^so\(urce\)\?'
+        normal 0
+        normal w
+        normal gf
+    endif
 endfunction
-nmap <C-S-P> :call <SID>SynAttr()<CR>
 
-" prevent accidentally holding shift for too long (e.g. after shift-v, going down one line)
-" visual mode
-vnoremap <S-Up> <Up>
-vnoremap <S-Down> <Down>
-" normal mode
-nnoremap <S-Up> <Up>
-nnoremap <S-Down> <Down>
-
-" list current directory contents
-command! LL echo glob('*')
-" rot13 file
-nmap <F3> ggVGg?
-" Show syntax highlighting groups for word under cursor
-nmap <leader>z :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-" split window stuff
-nnoremap <F5> :res -10<CR>
-nnoremap <F6> :res +10<CR>
-nnoremap <F7> :vertical res -10<CR>
-nnoremap <F8> :vertical res +10<CR>
-
-
-if filereadable(".vimrc.local")
-    source .vimrc.local
-endif
-
-set secure
+" from http://learnvimscriptthehardway.stevelosh.com " {{{
+nnoremap - ddp
+nnoremap _ ddkP
+iabbrev @@ thomas.schmidt@ext.publications.europa.eu
+iabbrev ssig Thomas Schmidt, A3 - Test and Integration
+iabbrev cinc #include <>
+let mapleader = ";"
+let maplocalleader = ","
+noremap <leader>es :split $MYVIMRC<cr>
+noremap <leader>ev :call OpenVimRC()<cr>
+noremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+vnoremap <c-w>" <esc>a"<esc>`<i"<esc>
+inoremap jk <esc>
+inoremap <Left> <nop>
+inoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+nnoremap <Left> <nop>
+nnoremap <right> <nop>
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+" change inside email adress
+onoremap in@ :<c-u>execute "normal! /[a-zA-Z0-9._-]\\+\@[a-zA-Z0-9._-]\\+\r:nohls\rvE"<cr>
+" file settings ------------------------------------------------- {{{
+augroup filetype_stuff
+    autocmd!
+    autocmd FileType cpp nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType perl nnoremap <buffer> <localleader>c I#<esc>
+    autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+    autocmd filetype c nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType markdown onoremap <buffer> ih :<c-u>execute "normal! ?^\[=-\]\[=-\]\\+$\r:nohlsearch\rkvg_"<cr>
+    autocmd FileType markdown onoremap <buffer> ah :<c-u>execute "normal! ?^\[=-\]\[=-\]\\+$\r:nohlsearch\rg_vk0"<cr>
+    autocmd FileType markdown nnoremap <buffer> mh :<c-u>normal! yyp0vg_r=o<cr>
+    autocmd FileType markdown nnoremap <buffer> msh :<c-u>normal! yyp0vg_r-o<cr>
+augroup END
+" }}}
+" statuslines ------------------------------------------------- {{{
+augroup statuslines
+    autocmd!
+    autocmd Filetype cpp        setlocal statusline=%f\ %n%=\ %l
+    autocmd Filetype markdown   setlocal statusline=%F\ %=\ %l/%L
+augroup END
+" }}}
+" folding ------------------------------------------------- {{{
+augroup folding
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType vim setlocal foldlevelstart=0
+augroup END
+" }}}
+" }}}
