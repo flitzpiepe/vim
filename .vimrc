@@ -13,6 +13,7 @@ set tabstop=4
 set softtabstop=4
 
 set foldmethod=indent
+set foldlevelstart=3
 set linebreak
 
 set number
@@ -50,7 +51,8 @@ let g:netrw_winsize = 32
 " from a git repo)
 function! OpenVimRC()
     vsplit $MYVIMRC
-    if line('$') == 1 && getline('.') =~ '^so\(urce\)\?'
+    if getline('1') =~ '^so\(urce\)\?'
+        normal gg
         normal 0
         normal w
         normal gf
@@ -58,12 +60,17 @@ function! OpenVimRC()
 endfunction
 function! OpenGVimRC()
     vsplit $MYGVIMRC
-    if line('$') == 1 && getline('.') =~ '^so\(urce\)\?'
+    if getline('1') =~ '^so\(urce\)\?'
+        normal gg
         normal 0
         normal w
         normal gf
     endif
 endfunction
+
+if filereadable(".vimrc.local")
+    source .vimrc.local
+endif
 
 " from http://learnvimscriptthehardway.stevelosh.com " {{{
 nnoremap - ddp
@@ -116,7 +123,7 @@ augroup END
 augroup folding
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
-    autocmd FileType vim setlocal foldlevelstart=0
+    autocmd FileType vim setlocal foldlevelstart=3
 augroup END
 " }}}
 " }}}
