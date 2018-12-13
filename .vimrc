@@ -25,6 +25,9 @@ nmap <F5> :resize -10<cr>
 nmap <F6> :resize +10<cr>
 nmap <F7> :vertical resize -10<cr>
 nmap <F8> :vertical resize +10<cr>
+
+set hlsearch
+set incsearch
 nmap <Space> :nohlsearch<cr>
 " }}}
 
@@ -97,6 +100,14 @@ nnoremap <Left> <nop>
 nnoremap <right> <nop>
 nnoremap <up> <nop>
 nnoremap <down> <nop>
+" looks good with colorscheme "one"
+highlight WError guibg=#ff5994  
+nnoremap <leader>w :match WError /\s\+$/<cr>
+nnoremap <leader>W :match<cr>
+" always use very magic search
+nnoremap / /\v
+" add a semicolon at the end of a line without moving the cursor
+nnoremap <leader>bb :<c-u>execute "normal! mqA;\<lt>esc>`q"<cr>
 " change inside email adress
 onoremap in@ :<c-u>execute "normal! /[a-zA-Z0-9._-]\\+\@[a-zA-Z0-9._-]\\+\r:nohls\rvE"<cr>
 " file settings ------------------------------------------------- {{{

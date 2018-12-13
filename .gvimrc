@@ -14,14 +14,16 @@ if filereadable(".gvimrc.local")
 endif
 
 " theme-related settings ------------------------------------ {{{
-let g:theme_font="Source\\ Code\\ Pro"
+let g:theme_font = has("gui_win32") ? "Source_Code_Pro" : "Source\\ Code\\ Pro"
 function! SetThemeFont(name)
     let g:theme_font=a:name
 endfunction
 function! SetFont(size, weight)
-    let l:sep = has("gui_win32") ? ":" : "\\ "
-    let l:weight = "\\ " . a:weight
-    execute "set guifont=" . g:theme_font . l:weight . l:sep . a:size
+    let l:sep_size = has("gui_win32") ? ":" : "\\ "
+    let l:sep_word = has("gui_win32") ? "_" : "\\ "
+    let l:size = has("gui_win32") ? "h".a:size : a:size
+    let l:weight = a:weight != "" ? l:sep_word . a:weight : ""
+    execute "set guifont=" . g:theme_font . l:weight . l:sep_size . l:size
 endfunction
 function! Dark()
     colorscheme one
@@ -38,7 +40,7 @@ endfunction
 function! Darkbig()
     colorscheme one
     set background=dark
-    call SetFont(12, 'Regular')
+    call SetFont(12, '')
     let g:theme_is_set = 1
 endfunction
 function! Lightbig()
