@@ -100,6 +100,10 @@ nnoremap <leader>w :match WError /\s\+$/<cr>
 nnoremap <leader>W :match<cr>
 " always use very magic search
 nnoremap / /\v
+" grep stuff
+nnoremap <leader>vg :silent execute "vimgrep /" . expand("<cWORD>") . "/j **/*"<cr>:copen<cr>
+nnoremap <F9> :cprevious<cr>
+nnoremap <F10> :cnext<cr>
 " add a semicolon at the end of a line without moving the cursor
 nnoremap <leader>bb :<c-u>execute "normal! mqA;\<lt>esc>`q"<cr>
 " change inside email adress
