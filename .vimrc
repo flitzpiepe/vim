@@ -106,6 +106,10 @@ nnoremap <leader>w :match WError /\s\+$/<cr>
 nnoremap <leader>W :match<cr>
 " always use very magic search
 nnoremap / /\v
+" grep stuff
+nnoremap <leader>vg :silent execute "vimgrep /" . expand("<cWORD>") . "/j **/*"<cr>:copen<cr>
+nnoremap <F9> :cprevious<cr>
+nnoremap <F10> :cnext<cr>
 " add a semicolon at the end of a line without moving the cursor
 nnoremap <leader>bb :<c-u>execute "normal! mqA;\<lt>esc>`q"<cr>
 " change inside email adress
@@ -137,4 +141,25 @@ augroup folding
     autocmd FileType vim setlocal foldlevelstart=3
 augroup END
 " }}}
+" }}}
+" grep operator
+" {{{
+nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
+vnoremap <leader>g :<c-u>call <SID>GrepOperator(visualmode())<cr>
+function! s:GrepOperator(type)
+    let saved_unnamed_register = @@
+
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+
+    silent execute "vimgrep! " . shellescape(@@) . " **/*"
+    copen
+
+    let @@ = saved_unnamed_register
+endfunction
 " }}}
