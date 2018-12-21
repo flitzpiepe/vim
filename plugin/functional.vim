@@ -33,9 +33,21 @@ endfunction
 
 " higher-order functions
 " {{{
+function! Filtered(fn, l)
+    let new_list = deepcopy(a:l)
+    call filter(new_list, string(a:fn) . '(v:val)')
+    return new_list
+endfunction
+
 function! Mapped(fn, l)
     let new_list = deepcopy(a:l)
     call map(new_list, string(a:fn) . '(v:val)')
+    return new_list
+endfunction
+
+function! Removed(fn, l)
+    let new_list = deepcopy(a:l)
+    call filter(new_list, '!'.string(a:fn).'(v:val)')
     return new_list
 endfunction
 " }}}
