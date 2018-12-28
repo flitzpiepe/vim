@@ -104,6 +104,10 @@ nnoremap <down> <nop>
 highlight WError guibg=#ff5994  
 nnoremap <leader>w :match WError /\s\+$/<cr>
 nnoremap <leader>W :match<cr>
+" grep stuff
+nnoremap <leader>vg :silent execute "vimgrep /" . expand("<cWORD>") . "/j **/*"<cr>:copen<cr>
+nnoremap <F9> :cprevious<cr>
+nnoremap <F10> :cnext<cr>
 " add a semicolon at the end of a line without moving the cursor
 nnoremap <leader>bb :<c-u>execute "normal! mqA;\<lt>esc>`q"<cr>
 " change inside email adress
@@ -135,4 +139,59 @@ augroup folding
     autocmd FileType vim setlocal foldlevelstart=3
 augroup END
 " }}}
+" }}}
+" grep operator
+" {{{
+nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
+vnoremap <leader>g :<c-u>call <SID>GrepOperator(visualmode())<cr>
+function! s:GrepOperator(type)
+    let saved_unnamed_register = @@
+
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+
+    silent execute "vimgrep! " . shellescape(@@) . " **/*"
+    copen
+
+    let @@ = saved_unnamed_register
+endfunction
+" }}}
+" {{{ toggle options
+" {{{ fold column
+nnoremap <leader>f :call <SID>FoldColumnToggle()<cr>
+function! s:FoldColumnToggle()
+    if &foldcolumn
+        setlocal foldcolumn=0
+    else
+        setlocal foldcolumn=2
+    endif
+endfunction
+" }}}
+" {{{ quickfix
+nnoremap <leader>q :call <SID>QuickfixToggle()<cr>
+let g:quickfix_is_open = 0
+function! s:QuickfixToggle()
+    if g:quickfix_is_open
+        cclose
+        let g:quickfix_is_open = 0
+        execute g:quickfix_return_to_window . "wincmd w"
+    else
+        let g:quickfix_return_to_window = winnr()
+        copen
+        let g:quickfix_is_open = 1
+    endif
+endfunction
+" }}}
+" }}}
+
+
+
+" {{{ TODO
+" when using <leader>ev, the foldmethod is not reinizalied, and
+" probably other stuff as well
 " }}}
