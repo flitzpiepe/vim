@@ -13,7 +13,7 @@ set tabstop=4
 set softtabstop=4
 
 set foldmethod=indent
-set foldlevelstart=3
+set foldlevelstart=10
 set linebreak
 
 set number
@@ -104,8 +104,6 @@ nnoremap <down> <nop>
 highlight WError guibg=#ff5994  
 nnoremap <leader>w :match WError /\s\+$/<cr>
 nnoremap <leader>W :match<cr>
-" always use very magic search
-nnoremap / /\v
 " add a semicolon at the end of a line without moving the cursor
 nnoremap <leader>bb :<c-u>execute "normal! mqA;\<lt>esc>`q"<cr>
 " change inside email adress
