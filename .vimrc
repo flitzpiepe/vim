@@ -30,11 +30,13 @@ set shiftround
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
+set linebreak
+set textwidth=0
 
 set foldmethod=indent
 set foldlevelstart=10
-set linebreak
 
+set listchars=eol:$,tab:>-
 set number
 syntax on
 " }}}
@@ -46,7 +48,6 @@ nmap <F7> :vertical resize -10<cr>
 nmap <F8> :vertical resize +10<cr>
 
 set hlsearch
-set incsearch
 nmap <Space> :nohlsearch<cr>
 " }}}
 
