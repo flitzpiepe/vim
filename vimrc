@@ -79,10 +79,6 @@ cabbr <expr> %% expand('%:p:h')
 autocmd bufnewfile *.pl r h:\101\template_perl.txt
 autocmd bufnewfile *.pl 0d
 
-" retain folds
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
-
 nnoremap <C-S> :execute "e" expand("%:p:h")<CR>
 let g:netrw_liststyle = 3
 let g:netrw_winsize = 32
