@@ -1,0 +1,27 @@
+[submodule "bundle/vim-airline"]
+	path = bundle/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "bundle/twig"]
+	path = bundle/twig
+	url = https://github.com/evidens/vim-twig
+[submodule "bundle.20200817/bundle/vim-one"]
+	path = bundle.20200817/bundle/vim-one
+	url = https://github.com/rakr/vim-one
+[submodule "bundle/airline"]
+	path = bundle/airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "bundle/monokai"]
+	path = bundle/monokai
+	url = https://github.com/sickill/vim-monokai
+[submodule "bundle/one"]
+	path = bundle/one
+	url = https://github.com/rakr/vim-one
+[submodule "bundle/polyglot"]
+	path = bundle/polyglot
+	url = https://github.com/sheerun/vim-polyglot
+[submodule "bundle/neodark"]
+	path = bundle/neodark
+	url = https://github.com/KeitaNakamura/neodark.vim
+[submodule "bundle/gruvbox"]
+	path = bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox
