@@ -74,9 +74,8 @@ nmap <Space> :nohlsearch<cr>
 " to open a file in the same directory as the current buffer
 cabbr <expr> %% expand('%:p:h')
 
-" TODO
 " autocmds
-autocmd bufnewfile *.pl r h:\101\template_perl.txt
+autocmd bufnewfile *.pl r ~/.vim/templates/pl
 autocmd bufnewfile *.pl 0d
 
 nnoremap <C-S> :execute "e" expand("%:p:h")<CR>
