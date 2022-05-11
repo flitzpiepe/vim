@@ -129,7 +129,9 @@ nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 vnoremap <c-w>" <esc>a"<esc>`<i"<esc>
 " exit insert mode
-inoremap jk <esc>
+" disabled, with it, there is a weird delay for esc and ctrl-c to leave
+" insert mode
+"inoremap jk <esc>
 " -- torture --
 inoremap <Left> <nop>
 inoremap <right> <nop>
