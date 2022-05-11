@@ -182,6 +182,10 @@ iabbrev @@ thomas.schmidt_83@gmx.de
 iabbrev ssig Thomas Schmidt
 iabbrev cinc #include <>
 " }}}
+" set filetype by extension settings ------------------------------------------------- {{{
+augroup filetype_selection
+    au BufRead,BufNewFile *.gnu,*.gnuplot set filetype=gnuplot
+augroup END
 " file-type specific settings ------------------------------------------------- {{{
 augroup filetype_stuff
     autocmd!
